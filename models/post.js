@@ -26,4 +26,3 @@ const Post = db.define("Post", {
 });
 
 module.exports = Post;
-ss;
