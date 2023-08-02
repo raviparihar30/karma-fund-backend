@@ -16,7 +16,7 @@ const Post = db.define("Post", {
     allowNull: false,
   },
   description: {
-    type: DataTypes.TEXT,
+    type: "LONGTEXT", // Set the type to LONGTEXT
     allowNull: false,
   },
   image: {

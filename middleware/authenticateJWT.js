@@ -1,9 +1,11 @@
 // middleware/authenticateJWT.js
 const jwt = require("jsonwebtoken");
+const apiResponse = require("../utils/apiResponse");
 
 const authenticateJWT = (req, res, next) => {
   return (req, res, next) => {
-    const token = req.header("Authorization");
+    const token = req.header("Authorization") || req.query;
+    console.log("hghfhggjhgghf  ", token);
     if (!token) {
       return res
         .status(401)
@@ -16,9 +18,9 @@ const authenticateJWT = (req, res, next) => {
         return res.status(403).json(apiResponse(false, "Invalid token"));
       }
 
-      if (!roles.includes(user.role)) {
-        return res.status(403).json(apiResponse(false, "Access denied"));
-      }
+      // if (!roles.includes(user.role)) {
+      //   return res.status(403).json(apiResponse(false, "Access denied"));
+      // }
 
       req.user = user;
       next();

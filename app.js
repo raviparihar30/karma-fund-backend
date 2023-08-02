@@ -1,13 +1,18 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const port = 3001;
+const port = 8000;
 
 const db = require("./db");
 
 // Middleware to parse incoming request bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // Set up the uploads folder to serve static images
 app.use("/uploads", express.static("uploads"));
 

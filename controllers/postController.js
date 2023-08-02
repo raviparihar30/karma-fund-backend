@@ -5,6 +5,7 @@ const Post = require("../models/post");
 
 const getAllPosts = async (req, res) => {
   try {
+    console.log("line 8");
     const posts = await Post.findAll();
     return res.json(apiResponse(true, "Posts fetched successfully", posts));
   } catch (err) {
@@ -16,6 +17,7 @@ const getAllPosts = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
+  console.log("req.user  => ", req.user);
   if (req.user.role !== "admin") {
     return res.status(403).json(apiResponse(false, "Access denied"));
   }
