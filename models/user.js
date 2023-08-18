@@ -28,6 +28,10 @@ const User = db.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  profilePhoto: {
+    type: DataTypes.STRING, // You can change this data type if storing a URL
+    allowNull: true, // Allow null to represent users without a photo
+  },
   role: {
     type: DataTypes.ENUM("user", "admin"),
     defaultValue: "user",

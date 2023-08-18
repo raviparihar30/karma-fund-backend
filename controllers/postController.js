@@ -79,7 +79,10 @@ const updatePost = async (req, res) => {
     post.title = title;
     post.subTitle = subTitle;
     post.description = description;
-    post.image = image;
+    if (image) {
+      post.image = image;
+    }
+
     await post.save();
 
     return res.json(apiResponse(true, "Blog post updated successfully", post));

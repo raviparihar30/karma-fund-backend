@@ -6,6 +6,7 @@ const User = require("../models/User");
 const registerUser = async (req, res) => {
   try {
     const { name, email, mobileNo, password } = req.body;
+    const { filename } = req.file; // Get the filename of the uploaded profile photo
 
     // Check if the email is already registered
     const existingUser = await User.findOne({ where: { email } });
@@ -21,12 +22,19 @@ const registerUser = async (req, res) => {
       email,
       mobileNo,
       password: hashedPassword,
+      profilePhoto: filename, // Store the filename in the profilePhoto field
     });
+
     return res.json(apiResponse(true, "User registered successfully", user));
   } catch (err) {
     console.error("Error registering user:", err);
     return res.status(500).json(apiResponse(false, "Failed to register user"));
   }
+};
+
+module.exports = {
+  registerUser,
+  // ... other functions
 };
 
 const loginUser = async (req, res) => {

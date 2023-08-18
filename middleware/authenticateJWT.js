@@ -5,7 +5,7 @@ const apiResponse = require("../utils/apiResponse");
 const authenticateJWT = (req, res, next) => {
   return (req, res, next) => {
     const token = req.header("Authorization") || req.query;
-    console.log("hghfhggjhgghf  ", token);
+    // console.log("hghfhggjhgghf  ", token);
     if (!token) {
       return res
         .status(401)
