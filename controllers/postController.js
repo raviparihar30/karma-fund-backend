@@ -23,10 +23,17 @@ const createPost = async (req, res) => {
   }
 
   const { title, subTitle, description } = req.body;
+  const uploaderId = req.user.id; // Assuming you have user data in req.user after authentication
   const image = req.file ? req.file.filename : null;
 
   try {
-    const newPost = await Post.create({ title, subTitle, description, image });
+    const newPost = await Post.create({
+      title,
+      subTitle,
+      description,
+      image,
+      uploaderId,
+    });
     return res.json(apiResponse(true, "Post created successfully", newPost));
   } catch (err) {
     console.error("Error creating a new blog post:", err);
@@ -122,10 +129,34 @@ const deletePost = async (req, res) => {
   }
 };
 
+const increaseViewCount = async (req, res) => {
+  try {
+    const postId = req.params.postId; // Assuming the post ID is passed in the URL
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      return res.status(404).json(apiResponse(false, "Post not found"));
+    }
+
+    post.views += 1; // Increase the view count by 1
+    await post.save();
+
+    return res.json(
+      apiResponse(true, "View count increased", { views: post.views })
+    );
+  } catch (err) {
+    console.error("Error increasing view count:", err);
+    return res
+      .status(500)
+      .json(apiResponse(false, "Failed to increase view count"));
+  }
+};
+
 module.exports = {
   getAllPosts,
   createPost,
   getPostById,
   updatePost,
   deletePost,
+  increaseViewCount,
 };

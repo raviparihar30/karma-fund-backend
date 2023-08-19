@@ -12,7 +12,7 @@ router.get("/", postController.getAllPosts);
 
 // Create a new blog post
 router.post(
-  "/",
+  "/:id",
   authenticateJWT(["admin"]),
   upload.single("image"),
   compressImage,
@@ -36,6 +36,12 @@ router.delete(
   "/:postId",
   authenticateJWT(["admin"]),
   postController.deletePost
+);
+
+router.post(
+  "/posts/:postId/increase-views",
+  authenticateJWT(["user"]),
+  postController.increaseViewCount
 );
 
 module.exports = router;

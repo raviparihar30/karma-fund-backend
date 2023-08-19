@@ -32,6 +32,14 @@ const User = db.define("User", {
     type: DataTypes.STRING, // You can change this data type if storing a URL
     allowNull: true, // Allow null to represent users without a photo
   },
+  twitterLink: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  linkedinLink: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   role: {
     type: DataTypes.ENUM("user", "admin"),
     defaultValue: "user",

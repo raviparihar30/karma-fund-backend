@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const db = require("../db");
+const User = require("../models/User");
 
 const Post = db.define("Post", {
   id: {
@@ -23,6 +24,14 @@ const Post = db.define("Post", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  views: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0, // Set a default value
+  },
+  uploaderId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
 });
-
+Post.belongsTo(User, { foreignKey: "uploaderId" }); // Establish the association
 module.exports = Post;
