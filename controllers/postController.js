@@ -2,11 +2,23 @@ const fs = require("fs");
 const path = require("path");
 const apiResponse = require("../utils/apiResponse");
 const Post = require("../models/post");
+const User = require("../models/User");
 
 const getAllPosts = async (req, res) => {
   try {
-    console.log("line 8");
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      include: {
+        model: User,
+        attributes: [
+          "id",
+          "name",
+          "profilePhoto",
+          "twitterLink",
+          "linkedinLink",
+        ],
+      },
+    });
+
     return res.json(apiResponse(true, "Posts fetched successfully", posts));
   } catch (err) {
     console.error("Error fetching blog posts:", err);
@@ -152,6 +164,20 @@ const increaseViewCount = async (req, res) => {
   }
 };
 
+const getPostsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId; // Assuming the user ID is passed in the URL
+    const posts = await Post.findAll({
+      where: { uploaderId: userId }, // Filter by uploaderId
+    });
+
+    return res.json(apiResponse(true, "Posts fetched successfully", posts));
+  } catch (err) {
+    console.error("Error fetching posts by user ID:", err);
+    return res.status(500).json(apiResponse(false, "Failed to fetch posts"));
+  }
+};
+
 module.exports = {
   getAllPosts,
   createPost,
@@ -159,4 +185,5 @@ module.exports = {
   updatePost,
   deletePost,
   increaseViewCount,
+  getPostsByUserId,
 };

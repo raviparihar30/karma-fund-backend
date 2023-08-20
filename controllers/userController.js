@@ -7,7 +7,8 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, mobileNo, password, twitterLink, linkedinLink } =
       req.body;
-    const { filename } = req.file; // Get the filename of the uploaded profile photo
+
+    const { filename } = req.file || {}; // Get the filename of the uploaded profile photo
 
     // Check if the email is already registered
     const existingUser = await User.findOne({ where: { email } });
@@ -23,7 +24,7 @@ const registerUser = async (req, res) => {
       email,
       mobileNo,
       password: hashedPassword,
-      profilePhoto: filename,
+      profilePhoto: filename ?? "",
       twitterLink, // Store Twitter link
       linkedinLink, // Store LinkedIn link
     });
@@ -37,12 +38,16 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     console.log(" req.body  => ", req.body);
     const user = await User.findOne({ where: { email } });
     console.log("user  => ", user);
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json(apiResponse(false, "Invalid credentials"));
+    }
+    if (role == "admin" && user.role != "admin") {
+      return res.status(500).json(apiResponse(false, "Failed to login"));
     }
 
     const payload = { id: user.id, email: user.email, role: user.role };
@@ -51,7 +56,7 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign(payload, secretKey, options);
     return res.json(
-      apiResponse(true, "User logged in successfully", { token })
+      apiResponse(true, "User logged in successfully", { token, user })
     );
   } catch (err) {
     console.error("Error logging in:", err);
