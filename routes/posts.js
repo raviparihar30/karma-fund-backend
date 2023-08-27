@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 const {
   upload,
@@ -40,7 +41,7 @@ router.delete(
 
 router.post(
   "/:postId/increase-views",
-  authenticateJWT(["user"]),
+  // authenticateJWT(["user"]),
   postController.increaseViewCount
 );
 
