@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const apiResponse = require("../utils/apiResponse");
 const Post = require("../models/post");
-const User = require("../models/User");
+const User = require("../models/user");
 
 const getAllPosts = async (req, res) => {
   try {
