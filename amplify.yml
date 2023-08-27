@@ -9,13 +9,4 @@ backend:
     configure:
       commands:
         - amplify push --yes
-  frontend: # Assuming there's no frontend in this project
-    phases:
-      # Build and deploy the Frontend
-      build:
-        commands: []
-    artifacts:
-      # This is where your frontend build output is located
-      baseDirectory: build
-      files: []
-  appRoot: . # Set this to the root directory
+  appRoot: .
