@@ -9,16 +9,13 @@ backend:
     configure:
       commands:
         - amplify push --yes
-  frontend:
+  frontend: # Assuming there's no frontend in this project
     phases:
       # Build and deploy the Frontend
       build:
-        commands:
-          - npm install
-          - npm run build
+        commands: []
     artifacts:
       # This is where your frontend build output is located
       baseDirectory: build
-      files:
-        - '**/*'
-  appRoot: ./your-nodejs-backend-directory
+      files: []
+  appRoot: . # Set this to the root directory
