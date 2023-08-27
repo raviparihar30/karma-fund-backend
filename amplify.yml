@@ -1,11 +1,4 @@
 version: 1
-frontend:
-  phases:
-    build:
-      commands: []
-  artifacts:
-    baseDirectory: ""
-    files: []
 backend:
   phases:
     # Build and deploy Backend Environment
@@ -16,4 +9,8 @@ backend:
     configure:
       commands:
         - amplify push --yes
+  artifacts:
+    # Set a valid base directory, even if there's no frontend
+    baseDirectory: ""
+    files: []
   appRoot: .
