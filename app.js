@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 const app = express();
 const port = 8000;
 
@@ -26,7 +27,7 @@ app.use("/api/users", userRoutes);
 // Start the server
 db.sync() // Sync the database schema with the models
   .then(() => {
-    app.listen(port, () => {
+    app.listen(process.env.PORT, () => {
       console.log(`Server is running on port ${port}`);
     });
   })

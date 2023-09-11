@@ -59,11 +59,20 @@ const getPostById = async (req, res) => {
   const postId = req.params.postId;
 
   try {
-    const post = await Post.findByPk(postId);
+    const post = await Post.findByPk(postId, {
+      include: User, // Include the associated User model
+    });
+
     if (!post) {
       return res.status(404).json(apiResponse(false, "Blog post not found"));
     }
-    return res.json(apiResponse(true, "Blog post fetched successfully", post));
+
+    return res.json(
+      apiResponse(true, "Blog post fetched successfully", {
+        post,
+        author: post.User, // Include author details in the response
+      })
+    );
   } catch (err) {
     console.error("Error fetching blog post by ID:", err);
     return res
