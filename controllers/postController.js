@@ -68,7 +68,7 @@ const getPostById = async (req, res) => {
     }
 
     return res.json(
-      apiResponse(true, "Blog post fetched successfully", {
+      apiResponse(true, "Blog post fetched successfully.", {
         post,
         author: post.User, // Include author details in the response
       })
